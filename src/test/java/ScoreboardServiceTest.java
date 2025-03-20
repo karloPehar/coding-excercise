@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import service.ScoreBoardService;
+import util.SequenceGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,11 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ScoreboardServiceTest {
 
     private static ScoreBoardService scoreBoardService;
+    private static SequenceGenerator sequenceGenerator;
 
     @BeforeAll
     public static void initializeData()
     {
         scoreBoardService = new ScoreBoardService();
+        sequenceGenerator = new SequenceGenerator();
     }
 
     @Test

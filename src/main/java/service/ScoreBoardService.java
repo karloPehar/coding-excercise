@@ -1,12 +1,17 @@
 package service;
 
 import model.Match;
-//import org.junit.platform.commons.util.StringUtils;
-//import org.junit.platform.commons.util.StringUtils;
 import org.apache.commons.lang3.StringUtils;
+import util.SequenceGenerator;
+
 public class ScoreBoardService {
 
 
+    private final SequenceGenerator sequenceGenerator;
+
+    public ScoreBoardService() {
+        sequenceGenerator = new SequenceGenerator();
+    }
 
     public Match addNewMatch(String homeTeam, String awayTeam)
     {
@@ -15,8 +20,7 @@ public class ScoreBoardService {
             throw new IllegalArgumentException("team names cannot be empty");
         }
 
-        Match newMatch = new Match(1,homeTeam,awayTeam);
-
+        Match newMatch = new Match(sequenceGenerator.generate(), homeTeam,awayTeam);
         return newMatch;
     }
 
