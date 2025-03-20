@@ -1,15 +1,22 @@
 import model.Match;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import service.ScoreBoardService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+
+
 
 public class ScoreboardServiceTest {
 
     private static ScoreBoardService scoreBoardService;
 
-    @BeforeClass
+    @BeforeAll
     public static void initializeData()
     {
         scoreBoardService = new ScoreBoardService();
@@ -25,4 +32,31 @@ public class ScoreboardServiceTest {
 
 
     }
+
+    @Test
+    public void EmptyTeamNamesPassedOnMatchCreationCauseExceptionTest()
+    {
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.addNewMatch("","");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.addNewMatch("string","");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.addNewMatch("  ","string");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.addNewMatch(null,"string");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.addNewMatch("",null);
+        });
+
+
+    }
+
 }
