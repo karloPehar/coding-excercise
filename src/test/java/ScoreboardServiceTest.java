@@ -71,4 +71,13 @@ public class ScoreboardServiceTest {
         assertEquals(10, sequenceGenerator.generate());
     }
 
+    @Test
+    public void finishExistingMatchTest()
+    {
+        Match match1 = scoreBoardService.addNewMatch("team1","team2");
+        Match match2 = scoreBoardService.addNewMatch("team3","team4");
+
+        scoreBoardService.finishMatch(1);
+    }
+
 }
