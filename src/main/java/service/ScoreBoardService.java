@@ -33,6 +33,9 @@ public class ScoreBoardService {
 
     public void finishMatch(int matchId)
     {
-       scoreboard.removeIf(x-> x.getId() == matchId);
+        if(!scoreboard.removeIf(x-> x.getId() == matchId))
+        {
+            throw new IllegalArgumentException("Could not complete action, match does not exist in the scoreboard");
+        }
     }
 }

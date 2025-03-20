@@ -80,4 +80,15 @@ public class ScoreboardServiceTest {
         scoreBoardService.finishMatch(1);
     }
 
+    @Test
+    public void finishMatchWithNonExistingIdTest()
+    {
+        Match match1 = scoreBoardService.addNewMatch("team1","team2");
+        Match match2 = scoreBoardService.addNewMatch("team3","team4");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.finishMatch(6);
+        });
+
+    }
 }
