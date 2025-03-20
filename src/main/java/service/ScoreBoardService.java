@@ -31,4 +31,8 @@ public class ScoreBoardService {
         return newMatch;
     }
 
+    public void finishMatch(int matchId)
+    {
+       scoreboard.removeIf(x-> x.getId() == matchId);
+    }
 }

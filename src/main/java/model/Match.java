@@ -8,6 +8,8 @@ public class Match {
     int homeTeamScore;
     int awayTeamScore;
 
+
+
     public Match(int id, String homeTeam, String awayTeam) {
 
         this.id = id;
@@ -17,6 +19,7 @@ public class Match {
         this.awayTeamScore = 0;
     }
 
+    public int getId() { return id;}
 
     public int getHomeTeamScore() {
         return homeTeamScore;
