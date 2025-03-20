@@ -30,7 +30,6 @@ public class ScoreboardServiceTest {
         assertEquals(0, match.getHomeTeamScore());
         assertEquals(0, match.getAwayTeamScore());
 
-
     }
 
     @Test
@@ -57,6 +56,16 @@ public class ScoreboardServiceTest {
         });
 
 
+    }
+
+    @Test
+    public void sequenceGeneratorIncreasesValueBy1EachTimeItIsCalledTest()
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            sequenceGenerator.generate();
+        }
+        assertEquals(10, sequenceGenerator.generate());
     }
 
 }
