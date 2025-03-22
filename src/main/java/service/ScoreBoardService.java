@@ -38,4 +38,18 @@ public class ScoreBoardService {
             throw new IllegalArgumentException("Could not complete action, match does not exist in the scoreboard");
         }
     }
+
+    public Match updateScore(int matchId, int homeTeamScore, int awayTeamScore)
+    {
+        for(Match match : scoreboard)
+        {
+            if (match.getId() == matchId)
+            {
+                match.updateScore(homeTeamScore,awayTeamScore);
+                return match;
+            }
+        }
+        return null;
+    }
+
 }

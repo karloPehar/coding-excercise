@@ -92,6 +92,7 @@ public class ScoreboardServiceTest {
 
     }
 
+    @Test
     public void updateScoreForMatchWithExistingIdTest()
     {
         Match match = scoreBoardService.addNewMatch("team1","team2");

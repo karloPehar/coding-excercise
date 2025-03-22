@@ -28,4 +28,9 @@ public class Match {
     public int getAwayTeamScore() {
         return awayTeamScore;
     }
+
+    public void updateScore(int homeTeamScore, int awayTeamScore) {
+        this.homeTeamScore = homeTeamScore;
+        this.awayTeamScore = awayTeamScore;
+    }
 }
