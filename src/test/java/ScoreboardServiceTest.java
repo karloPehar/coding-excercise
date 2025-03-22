@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import service.ScoreBoardService;
 import util.SequenceGenerator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -125,4 +129,43 @@ public class ScoreboardServiceTest {
         });
 
     }
+
+
+    @Test
+    public void matchSummaryTest()
+    {
+
+        matchSummaryTestData();
+
+        List<String> matchSummaries = scoreBoardService.generateMatchSummary();
+
+        assertEquals( "Uruguay 6 - Italy 6", matchSummaries.get(0));
+        assertEquals( "Spain 10 - Brazil 2", matchSummaries.get(1));
+        assertEquals( "Mexico 0 - Canada 5", matchSummaries.get(2));
+        assertEquals( "Argentina 3 - Australia 1", matchSummaries.get(3));
+        assertEquals( "Germany 2 - France 2", matchSummaries.get(4));
+
+
+    }
+
+
+    void matchSummaryTestData()
+    {
+        scoreBoardService.addNewMatch("Mexico","Canada");
+        scoreBoardService.updateScore(1,0,5);
+
+        scoreBoardService.addNewMatch("Spain","Brazil");
+        scoreBoardService.updateScore(2,10,2);
+
+        scoreBoardService.addNewMatch("Germany","France");
+        scoreBoardService.updateScore(3,2,2);
+
+        scoreBoardService.addNewMatch("Uruguay","Italy");
+        scoreBoardService.updateScore(4,6,6);
+
+        scoreBoardService.addNewMatch("Argentina","Australia");
+        scoreBoardService.updateScore(6,3,1);
+
+    }
+
 }
