@@ -91,4 +91,10 @@ public class ScoreboardServiceTest {
         });
 
     }
+
+    public void updateScoreForMatchWithExistingIdTest()
+    {
+        Match match = scoreBoardService.addNewMatch("team1","team2");
+        match = scoreBoardService.updateScore(1,1,1);
+    }
 }
