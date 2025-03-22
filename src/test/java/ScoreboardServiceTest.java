@@ -98,4 +98,31 @@ public class ScoreboardServiceTest {
         Match match = scoreBoardService.addNewMatch("team1","team2");
         match = scoreBoardService.updateScore(1,1,1);
     }
+
+    @Test
+    public void matchThatdoesNotExistInScoreboardThrowsExceptionOnUpdate()
+    {
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.updateScore(115,1,1);
+        });
+    }
+
+    @Test
+    public void notegativeScoreThrowsExceptionOnUpdate()
+    {
+        Match match = scoreBoardService.addNewMatch("team1","team2");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.updateScore(1,-1,1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.updateScore(1,1,-1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            scoreBoardService.updateScore(1,-1,-1);
+        });
+
+    }
 }
