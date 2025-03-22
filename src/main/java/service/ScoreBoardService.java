@@ -41,6 +41,9 @@ public class ScoreBoardService {
 
     public Match updateScore(int matchId, int homeTeamScore, int awayTeamScore)
     {
+        if(homeTeamScore < 0 || awayTeamScore < 0)
+            throw new IllegalArgumentException("Team score cannot be updated to negative value");
+
         for(Match match : scoreboard)
         {
             if (match.getId() == matchId)
@@ -49,7 +52,7 @@ public class ScoreBoardService {
                 return match;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Could not complete action, match does not exist in the scoreboard");
     }
 
 }

@@ -108,7 +108,7 @@ public class ScoreboardServiceTest {
     }
 
     @Test
-    public void notegativeScoreThrowsExceptionOnUpdate()
+    public void negativeScoreThrowsExceptionOnUpdate()
     {
         Match match = scoreBoardService.addNewMatch("team1","team2");
 
