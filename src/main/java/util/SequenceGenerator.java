@@ -4,7 +4,7 @@ public class SequenceGenerator {
 
     private int sequence = 0;
 
-    public int generate()
+    public synchronized int generate()
     {
         return ++sequence;
     }
