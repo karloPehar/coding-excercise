@@ -4,14 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import impl.ScoreBoard;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import util.SequenceGenerator;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-
 
 
 
@@ -37,31 +38,23 @@ public class ScoreboardTest {
 
     }
 
+
     @Test
     public void EmptyTeamNamesPassedOnMatchCreationCauseExceptionTest()
     {
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.addNewMatch("","");
-        });
+        List <String> invalidTeamNames = Arrays.asList(null,"", "   ");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.addNewMatch("string","");
-        });
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.addNewMatch("  ","string");
-        });
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.addNewMatch(null,"string");
-        });
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.addNewMatch("",null);
-        });
-
-
+        for(String teamName1: invalidTeamNames)
+        {
+            for(String teamName2: invalidTeamNames)
+            {
+                assertThrows(IllegalArgumentException.class, () -> {
+                    scoreBoard.addNewMatch(teamName1,teamName2);
+                });
+            }
+        }
     }
+
 
     @Test
     public void sequenceGeneratorIncreasesValueBy1EachTimeItIsCalledTest()
@@ -76,8 +69,8 @@ public class ScoreboardTest {
     @Test
     public void finishExistingMatchTest()
     {
-        Match match1 = scoreBoard.addNewMatch("team1","team2");
-        Match match2 = scoreBoard.addNewMatch("team3","team4");
+        scoreBoard.addNewMatch("team1","team2");
+        scoreBoard.addNewMatch("team3","team4");
 
         scoreBoard.finishMatch(1);
     }
@@ -85,9 +78,6 @@ public class ScoreboardTest {
     @Test
     public void finishMatchWithNonExistingIdTest()
     {
-        Match match1 = scoreBoard.addNewMatch("team1","team2");
-        Match match2 = scoreBoard.addNewMatch("team3","team4");
-
         assertThrows(IllegalArgumentException.class, () -> {
             scoreBoard.finishMatch(6);
         });
@@ -97,37 +87,35 @@ public class ScoreboardTest {
     @Test
     public void updateScoreForMatchWithExistingIdTest()
     {
-        Match match = scoreBoard.addNewMatch("team1","team2");
-        match = scoreBoard.updateScore(1,1,1);
+        scoreBoard.addNewMatch("team1","team2");
+        Match match = scoreBoard.updateScore(1,1,1);
+        assertEquals(1, match.getHomeTeamScore());
+        assertEquals(1, match.getAwayTeamScore());
     }
 
     @Test
-    public void matchThatdoesNotExistInScoreboardThrowsExceptionOnUpdate()
+    public void matchThatDoesNotExistInScoreboardThrowsExceptionOnUpdate()
     {
         assertThrows(IllegalArgumentException.class, () -> {
             scoreBoard.updateScore(115,1,1);
         });
     }
 
-    @Test
-    public void negativeScoreThrowsExceptionOnUpdate()
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1, 1",
+            "1, -1",
+            "-1, -1"
+    })
+    public void negativeScoreThrowsExceptionOnUpdate(int score1, int score2)
     {
-        Match match = scoreBoard.addNewMatch("team1","team2");
+        scoreBoard.addNewMatch("team1","team2");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.updateScore(1,-1,1);
+            scoreBoard.updateScore(1,score1,score2);
         });
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.updateScore(1,1,-1);
-        });
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoard.updateScore(1,-1,-1);
-        });
-
     }
-
 
     @Test
     public void matchSummaryTest()
