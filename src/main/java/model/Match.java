@@ -33,4 +33,14 @@ public class Match {
         this.homeTeamScore = homeTeamScore;
         this.awayTeamScore = awayTeamScore;
     }
+
+    public int getTotalScore() {
+        return homeTeamScore + awayTeamScore;
+    }
+
+    public String generateMatchSummary() {
+
+        return homeTeam + " " + homeTeamScore + " - " + awayTeam + " " + awayTeamScore;
+    }
+
 }

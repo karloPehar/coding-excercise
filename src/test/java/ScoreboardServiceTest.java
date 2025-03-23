@@ -1,13 +1,13 @@
 import model.Match;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import service.ScoreBoardService;
 import util.SequenceGenerator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,8 +22,8 @@ public class ScoreboardServiceTest {
     private static ScoreBoardService scoreBoardService;
     private static SequenceGenerator sequenceGenerator;
 
-    @BeforeAll
-    public static void initializeData()
+    @BeforeEach
+    public void initializeData()
     {
         scoreBoardService = new ScoreBoardService();
         sequenceGenerator = new SequenceGenerator();
@@ -144,8 +144,13 @@ public class ScoreboardServiceTest {
         assertEquals( "Mexico 0 - Canada 5", matchSummaries.get(2));
         assertEquals( "Argentina 3 - Australia 1", matchSummaries.get(3));
         assertEquals( "Germany 2 - France 2", matchSummaries.get(4));
+    }
 
-
+    @Test
+    public void retrievingMatchSummaryForEmptyScoreboardDoesNotThrowExceptionTest()
+    {
+        List<String> matchSummaries = scoreBoardService.generateMatchSummary();
+        assertEquals( 0, matchSummaries.size());
     }
 
 
@@ -164,7 +169,7 @@ public class ScoreboardServiceTest {
         scoreBoardService.updateScore(4,6,6);
 
         scoreBoardService.addNewMatch("Argentina","Australia");
-        scoreBoardService.updateScore(6,3,1);
+        scoreBoardService.updateScore(5,3,1);
 
     }
 

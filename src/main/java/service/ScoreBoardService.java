@@ -5,7 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import util.SequenceGenerator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScoreBoardService {
 
@@ -55,4 +57,12 @@ public class ScoreBoardService {
         throw new IllegalArgumentException("Could not complete action, match does not exist in the scoreboard");
     }
 
+    public List<String> generateMatchSummary() {
+
+        return scoreboard.stream()
+                .sorted(Comparator.comparing(Match::getTotalScore,Comparator.reverseOrder())
+                        .thenComparing(Match::getId,Comparator.reverseOrder()))
+                .map(Match::generateMatchSummary).collect(Collectors.toList());
+
+    }
 }
