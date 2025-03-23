@@ -1,11 +1,9 @@
-import model.Match;
+import impl.Match;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import service.ScoreBoardService;
+import impl.ScoreBoard;
 import util.SequenceGenerator;
 
 import java.util.List;
@@ -17,22 +15,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 
-public class ScoreboardServiceTest {
+public class ScoreboardTest {
 
-    private static ScoreBoardService scoreBoardService;
+    private static ScoreBoard scoreBoard;
     private static SequenceGenerator sequenceGenerator;
 
     @BeforeEach
     public void initializeData()
     {
-        scoreBoardService = new ScoreBoardService();
+        scoreBoard = new ScoreBoard();
         sequenceGenerator = new SequenceGenerator();
     }
 
     @Test
    public void addNewMatchTest() {
 
-        Match match = scoreBoardService.addNewMatch("team1","team2");
+        Match match = scoreBoard.addNewMatch("team1","team2");
 
         assertEquals(0, match.getHomeTeamScore());
         assertEquals(0, match.getAwayTeamScore());
@@ -43,23 +41,23 @@ public class ScoreboardServiceTest {
     public void EmptyTeamNamesPassedOnMatchCreationCauseExceptionTest()
     {
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.addNewMatch("","");
+            scoreBoard.addNewMatch("","");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.addNewMatch("string","");
+            scoreBoard.addNewMatch("string","");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.addNewMatch("  ","string");
+            scoreBoard.addNewMatch("  ","string");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.addNewMatch(null,"string");
+            scoreBoard.addNewMatch(null,"string");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.addNewMatch("",null);
+            scoreBoard.addNewMatch("",null);
         });
 
 
@@ -78,20 +76,20 @@ public class ScoreboardServiceTest {
     @Test
     public void finishExistingMatchTest()
     {
-        Match match1 = scoreBoardService.addNewMatch("team1","team2");
-        Match match2 = scoreBoardService.addNewMatch("team3","team4");
+        Match match1 = scoreBoard.addNewMatch("team1","team2");
+        Match match2 = scoreBoard.addNewMatch("team3","team4");
 
-        scoreBoardService.finishMatch(1);
+        scoreBoard.finishMatch(1);
     }
 
     @Test
     public void finishMatchWithNonExistingIdTest()
     {
-        Match match1 = scoreBoardService.addNewMatch("team1","team2");
-        Match match2 = scoreBoardService.addNewMatch("team3","team4");
+        Match match1 = scoreBoard.addNewMatch("team1","team2");
+        Match match2 = scoreBoard.addNewMatch("team3","team4");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.finishMatch(6);
+            scoreBoard.finishMatch(6);
         });
 
     }
@@ -99,33 +97,33 @@ public class ScoreboardServiceTest {
     @Test
     public void updateScoreForMatchWithExistingIdTest()
     {
-        Match match = scoreBoardService.addNewMatch("team1","team2");
-        match = scoreBoardService.updateScore(1,1,1);
+        Match match = scoreBoard.addNewMatch("team1","team2");
+        match = scoreBoard.updateScore(1,1,1);
     }
 
     @Test
     public void matchThatdoesNotExistInScoreboardThrowsExceptionOnUpdate()
     {
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.updateScore(115,1,1);
+            scoreBoard.updateScore(115,1,1);
         });
     }
 
     @Test
     public void negativeScoreThrowsExceptionOnUpdate()
     {
-        Match match = scoreBoardService.addNewMatch("team1","team2");
+        Match match = scoreBoard.addNewMatch("team1","team2");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.updateScore(1,-1,1);
+            scoreBoard.updateScore(1,-1,1);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.updateScore(1,1,-1);
+            scoreBoard.updateScore(1,1,-1);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            scoreBoardService.updateScore(1,-1,-1);
+            scoreBoard.updateScore(1,-1,-1);
         });
 
     }
@@ -137,7 +135,7 @@ public class ScoreboardServiceTest {
 
         matchSummaryTestData();
 
-        List<String> matchSummaries = scoreBoardService.generateMatchSummary();
+        List<String> matchSummaries = scoreBoard.generateMatchSummary();
 
         assertEquals( "Uruguay 6 - Italy 6", matchSummaries.get(0));
         assertEquals( "Spain 10 - Brazil 2", matchSummaries.get(1));
@@ -149,27 +147,27 @@ public class ScoreboardServiceTest {
     @Test
     public void retrievingMatchSummaryForEmptyScoreboardDoesNotThrowExceptionTest()
     {
-        List<String> matchSummaries = scoreBoardService.generateMatchSummary();
+        List<String> matchSummaries = scoreBoard.generateMatchSummary();
         assertEquals( 0, matchSummaries.size());
     }
 
 
     void matchSummaryTestData()
     {
-        scoreBoardService.addNewMatch("Mexico","Canada");
-        scoreBoardService.updateScore(1,0,5);
+        scoreBoard.addNewMatch("Mexico","Canada");
+        scoreBoard.updateScore(1,0,5);
 
-        scoreBoardService.addNewMatch("Spain","Brazil");
-        scoreBoardService.updateScore(2,10,2);
+        scoreBoard.addNewMatch("Spain","Brazil");
+        scoreBoard.updateScore(2,10,2);
 
-        scoreBoardService.addNewMatch("Germany","France");
-        scoreBoardService.updateScore(3,2,2);
+        scoreBoard.addNewMatch("Germany","France");
+        scoreBoard.updateScore(3,2,2);
 
-        scoreBoardService.addNewMatch("Uruguay","Italy");
-        scoreBoardService.updateScore(4,6,6);
+        scoreBoard.addNewMatch("Uruguay","Italy");
+        scoreBoard.updateScore(4,6,6);
 
-        scoreBoardService.addNewMatch("Argentina","Australia");
-        scoreBoardService.updateScore(5,3,1);
+        scoreBoard.addNewMatch("Argentina","Australia");
+        scoreBoard.updateScore(5,3,1);
 
     }
 

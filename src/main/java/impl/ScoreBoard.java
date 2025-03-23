@@ -1,6 +1,5 @@
-package service;
+package impl;
 
-import model.Match;
 import org.apache.commons.lang3.StringUtils;
 import util.SequenceGenerator;
 
@@ -9,13 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ScoreBoardService {
+public class ScoreBoard {
 
 
     private final List<Match> scoreboard;
     private final SequenceGenerator sequenceGenerator;
 
-    public ScoreBoardService() {
+    public ScoreBoard() {
         this.scoreboard = new ArrayList<>();
         sequenceGenerator = new SequenceGenerator();
     }
